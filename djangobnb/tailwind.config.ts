@@ -8,7 +8,10 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {},
+      colors: {
+        airbnb: "#ff385c",
+        "airbnb-dark": "#d50027",
+      },
     },
   },
   plugins: [],
