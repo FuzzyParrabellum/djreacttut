@@ -1,4 +1,5 @@
 import Image from "next/image"; // boilerplate du début
+import Categories from "./Categories";
 
 export default function Home() {
   return (
