@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import SearchFilters from "./SearchFilters";
-import UserNav from "./Userbar";
+import UserNav from "./UserNav";
 import AddPropertyButton from "./AddPropertyButton";
 
 const Navbar = () => {
