@@ -3,6 +3,8 @@ version: "3.8"
 
 services:
   web:
+    # IMPORTANT le  répertoire de build ci-dessous doit matcher le 1er
+    # argument de volumes plus en bas
     build: .
     # build: ./djangobnb_backend
 
@@ -12,7 +14,9 @@ services:
 
       # - python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./djangobnb_backend/:/usr/src/djangobnb_backend/
+      # IMPORTANT le deuxième argument de volumes doit correspondre à ce
+      # ce qu'indique ds le Dockerfile avec WORKDIR /usr/src/ par ex
+      - .:/usr/src/
       # - ./djangobnb_backend/ :/usr/src/djangobnb_backend
 
     # ci-dessus, dit que le truc à gauche devrait faire persister ses données

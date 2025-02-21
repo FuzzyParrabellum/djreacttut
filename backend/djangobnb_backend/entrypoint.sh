@@ -17,6 +17,9 @@ if ["DATABASE" = "postgres"]
     echo "The database is running :-D"
 fi # permet de close la if loop
 
+python manage.py makemigrations # ajout perso, en fait même prof le rajoute
+# au bout d'un moment car plus utile pr faire migrations ss avoir à refaire
+# un build, marche dès que fait un docker-compose up
 python manage.py migrate 
 
 # ci-dessous "$@" est un paramètre spécial qui représente tous les paramètres
