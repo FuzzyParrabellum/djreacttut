@@ -9,8 +9,13 @@ import MenuLink from "./MenuLink";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useSignUpModal from "@/app/hooks/useSignUpModal";
+import LogoutButton from "../LogoutButton";
 
-const UserNav = () => {
+interface UserNavProps {
+  userId?: string | null;
+}
+
+const UserNav: React.FC<UserNavProps> = ({ userId }) => {
   const loginModal = useLoginModal();
   const signupModal = useSignUpModal();
   const [isOpen, setIsOpen] = useState(false);
@@ -34,7 +39,30 @@ const UserNav = () => {
 
       {isOpen && (
         <div className="w-[220px] absolute top-[60px] right-0 bg-white border rounded-xl shadow-md flex flex-col cursor-pointer">
-          <MenuLink
+          {userId ? (
+            <LogoutButton />
+          ) : (
+            <>
+              <MenuLink
+                label="Log in"
+                onClick={() => {
+                  console.log("Clicked button log in");
+                  loginModal.open();
+                  setIsOpen(false); //le open du burger menu
+                }}
+              />
+              <MenuLink
+                label="Sign up"
+                onClick={() => {
+                  console.log("Clicked button sign up");
+                  signupModal.open();
+                  setIsOpen(false); //le open du burger menu
+                }}
+              />
+            </>
+          )}
+
+          {/* <MenuLink
             label="Log in"
             onClick={() => {
               console.log("Clicked button log in");
@@ -50,6 +78,7 @@ const UserNav = () => {
               setIsOpen(false); //le open du burger menu
             }}
           />
+          <LogoutButton /> */}
         </div>
       )}
     </div>
