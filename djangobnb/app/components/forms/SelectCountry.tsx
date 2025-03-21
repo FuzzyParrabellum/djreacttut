@@ -17,7 +17,23 @@ const SelectCountry: React.FC<SelectCountryProps> = ({ value, onChange }) => {
   const { getAll } = useCountries();
   return (
     <>
-      <Select isClearable placeholder="Anywhere" options={getAll()} />
+      <Select
+        // Truc cool est que l'utilisateur peut "chercher" un pays juste grace
+        // au frontend, pas encore d'appel d'api
+        // isClearable permet d'avoir une petite icône à coté du champ qui
+        // permet à l'utilisateur de clear le champ si il a envie
+        isClearable
+        placeholder="Anywhere"
+        options={getAll()}
+        // sachant que dans le fichier AddPropertyModal.tsx, value est passé de
+        // cette manière
+        //   <SelectCountry
+        //           value={dataCountry}
+        //           onChange={(value) => setDataCountry(value as SelectCountryValue)}
+        //         />
+        value={value}
+        onChange={(value) => onChange(value as SelectCountryValue)}
+      />
     </>
   );
 };
