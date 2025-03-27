@@ -1,6 +1,11 @@
+import { getAccessToken } from "../lib/actions";
+
 const apiService = {
   get: async function (url: string): Promise<any> {
     console.log("get", url);
+
+    // ci-dessous va soit être un empty string, soit être un token
+    const token = await getAccessToken();
 
     return new Promise((resolve, reject) => {
       // ci-dessous ${process.env.NEXT_PUBLIC_API_HOST permet de récupérer
@@ -14,6 +19,7 @@ const apiService = {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       )
@@ -37,6 +43,35 @@ const apiService = {
   post: async function (url: string, data: any): Promise<any> {
     console.log("post", url, data);
 
+    const token = await getAccessToken();
+
+    return new Promise((resolve, reject) => {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_HOST}${url}`,
+        // ensuite on écrit la méthode que l'on va use
+        {
+          method: "POST",
+          body: data,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+        .then((response) => response.json())
+        .then((json) => {
+          console.log("Response:", json);
+          resolve(json);
+        })
+        .catch((error) => {
+          // Ici au lieu d'utiliser res, on utilise reject pour push
+          // directement l'erreur ds la property list d'après le prof
+          reject(error);
+        });
+    });
+  },
+  postWithoutToken: async function (url: string, data: any): Promise<any> {
+    console.log("post", url, data);
+
     return new Promise((resolve, reject) => {
       fetch(
         `${process.env.NEXT_PUBLIC_API_HOST}${url}`,
@@ -53,7 +88,6 @@ const apiService = {
         .then((response) => response.json())
         .then((json) => {
           console.log("Response:", json);
-
           resolve(json);
         })
         .catch((error) => {

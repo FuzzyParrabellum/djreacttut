@@ -59,6 +59,9 @@ const AddPropertyModal = () => {
       dataDescription &&
       dataPrice &&
       dataCountry &&
+      dataBedrooms &&
+      dataBathrooms &&
+      dataGuests &&
       dataImage
     ) {
       // Apparement ci-dessous c'est qq chose qui est built-in dans JS et
@@ -69,6 +72,7 @@ const AddPropertyModal = () => {
       formData.append("description", dataDescription);
       formData.append("price_per_night", dataPrice);
       formData.append("bedrooms", dataBathrooms);
+      formData.append("bathrooms", dataBathrooms);
       formData.append("guests", dataGuests);
       formData.append("country", dataCountry.label);
       formData.append("country_code", dataCountry.value);
@@ -80,8 +84,6 @@ const AddPropertyModal = () => {
       );
 
       if (response.success) {
-        console.log("SUCCESSESESESESES!");
-
         // on envoie l'user sur la page d'acceuil
         router.push("/");
 
@@ -89,6 +91,10 @@ const AddPropertyModal = () => {
       } else {
         console.log("Error");
       }
+    } else {
+      console.log(
+        "PERSO le if avec tous les champs n'a pas été rempli ds addpropertymodal.tsx"
+      );
     }
   };
 
@@ -243,7 +249,7 @@ const AddPropertyModal = () => {
             label="Previous"
             onClick={() => setCurrentStep(4)}
           />
-          <CustomButton label="Submit" onClick={() => console.log("Submit")} />
+          <CustomButton label="Submit" onClick={submitForm} />
         </>
       )}
     </>

@@ -72,3 +72,13 @@ export async function getUserId() {
   // de code devient secure et ne risque pas de crash
   return userId ? userId : null;
 }
+
+export async function getAccessToken() {
+  const cookieStore = await cookies();
+  let accessToken = cookieStore.get("session_access_token")?.value;
+
+  console.log(accessToken, "ACCESS TOKEN !!!");
+  console.log("YOUHOUHOUHOUHOHUOHU!");
+
+  return accessToken;
+}
