@@ -18,6 +18,8 @@ const AddPropertyModal = () => {
   //
   // States
   const [currentStep, setCurrentStep] = useState(1);
+  // ci-dessous on expect un array de string, qui est vide par défaut
+  const [errors, setErrors] = useState<string[]>([]);
   const [dataCategory, setDataCategory] = useState("");
   const [dataTitle, setDataTitle] = useState("");
   const [dataDescription, setDataDescription] = useState("");
@@ -89,12 +91,18 @@ const AddPropertyModal = () => {
 
         addPropertyModal.close();
       } else {
-        console.log("Error");
+        // console.log("Error");
+        const tmpErrors: string[] = Object.values(response).map(
+          // ci-dessous error est de any/n'importe quel type, car peut être nimp
+          (error: any) => {
+            return error;
+          }
+        );
+
+        setErrors(tmpErrors);
       }
     } else {
-      console.log(
-        "PERSO le if avec tous les champs n'a pas été rempli ds addpropertymodal.tsx"
-      );
+      setErrors(["Some fields are missing"]);
     }
   };
 
@@ -244,6 +252,17 @@ const AddPropertyModal = () => {
               </div>
             )}
           </div>
+          {errors.map((error, index) => {
+            return (
+              // chaque error doit avoir une unique key, donc :
+              <div
+                key={`error_${index}`}
+                className="p-5 bg-airbnb text-white rounded-xl opacity-80"
+              >
+                {error}
+              </div>
+            );
+          })}
           <CustomButton
             className="mb-2 bg-black hover:bg-gray-800"
             label="Previous"

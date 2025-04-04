@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view,authentication_classes, permissio
 
 from .forms import PropertyForm
 from .models import Property
-from .serializers import PropertiesListSerializer
+from .serializers import PropertiesListSerializer, PropertyDetailSerializer
 
 @api_view(['GET'])
 @authentication_classes([])
@@ -12,6 +12,17 @@ from .serializers import PropertiesListSerializer
 def properties_list(request):
     properties = Property.objects.all()
     serializer = PropertiesListSerializer(properties, many=True)
+
+    return JsonResponse({
+        'data': serializer.data
+    })
+
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
+def properties_detail(request, pk):
+    property = Property.objects.get(pk=pk)
+    serializer = PropertyDetailSerializer(property, many=False)
 
     return JsonResponse({
         'data': serializer.data
