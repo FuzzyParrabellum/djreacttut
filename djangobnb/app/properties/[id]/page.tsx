@@ -1,6 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
+
 import ReservationSideBar from "@/app/components/properties/ReservationSideBar";
 import apiService from "@/app/services/apiService";
+
+import { getUserId } from "@/app/lib/actions";
 
 // perso
 const pluralize: (topluralize: string) => string = function (
@@ -17,8 +21,11 @@ const PropertyDetailPage = async ({
 }: {
   params: Promise<{ id: string }>;
 }) => {
+  // perso
   const { id } = await params;
+
   const property = await apiService.get(`/api/properties/${id}`);
+  const userId = await getUserId();
   return (
     <main className="max-w-[1500px] mx-auto px-6 pb-6">
       <div className="w-full h-[64vh] mb-4 overflow-hidden rounded-xl relative">
@@ -46,7 +53,10 @@ const PropertyDetailPage = async ({
 
           <hr />
 
-          <div className="py-6 flex items-center space-x-4">
+          <Link
+            href={`/landlords/${property.data.landlord.id}`}
+            className="py-6 flex items-center space-x-4"
+          >
             {property.data.landlord.avatar_url && (
               <Image
                 src={`${property.data.landlord.avatar_url}`}
@@ -65,14 +75,14 @@ const PropertyDetailPage = async ({
               </strong>{" "}
               is your host
             </p>
-          </div>
+          </Link>
 
           <hr />
 
           <p className="mt-6 text-lg">{property.data.description}</p>
         </div>
 
-        <ReservationSideBar property={property.data} />
+        <ReservationSideBar property={property.data} userId={userId} />
       </div>
     </main>
   );

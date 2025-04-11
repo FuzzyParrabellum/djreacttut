@@ -12,10 +12,20 @@ export type PropertyType = {
   image_url: string;
 };
 
-const PropertyList = () => {
+interface PropertyListProps {
+  landlord_id?: string | null;
+}
+
+const PropertyList: React.FC<PropertyListProps> = ({ landlord_id }) => {
   const [properties, setProperties] = useState<PropertyType[]>([]);
   const getProperties = async () => {
-    const tmpProperties = await apiService.get("/api/properties/");
+    let url = "/api/properties/";
+
+    if (landlord_id) {
+      url += `?landlord_id=${landlord_id}`;
+    }
+
+    const tmpProperties = await apiService.get(url);
 
     setProperties(tmpProperties.data);
     // CI-DESSOUS comment faisait de manière naïve avant d'avoir crée la
@@ -37,7 +47,6 @@ const PropertyList = () => {
   // Ce UseEffect ne va se load que quand la page sera loaded
   useEffect(() => {
     // apiService.get("/api/properties/");
-
     getProperties();
   }, []);
   return (
