@@ -4,13 +4,10 @@ WORKDIR /usr/src/
 # WORKDIR /usr/src/django_backend
 # Ci-dessous permet d'éviter de créer des fichiers .pyc
 ENV PYTHONDONTWRITEBYTECODE 1
-#ci-dessous permet d'éviter que python buffer stdout et stdr
-# qd python buffer output, il collecte une certaine quantité de données avant
-# de les envoyer au terminal ou un fichier, ce qui peut provoquer des délais
-# pour voir l'output, tout spécialement qd run python dans certains 
-# environnements comme Docker
 
-ENV PYTHONBUFFERED 1
+# cfhttps://stackoverflow.com/questions/59812009/what-is-the-use-of-pythonunbuffered-in-docker-file
+#en bref permet d'envoyer stdout and stderr streams direct vers terminal
+ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && apt-get install -y netcat-traditional
 
