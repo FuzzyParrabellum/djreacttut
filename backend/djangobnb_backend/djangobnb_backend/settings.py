@@ -71,12 +71,22 @@ REST_AUTH = {
     "JWT_AUTH_HTTPONLY": False
 }
 
+# ici qu'on décide où les infos d'une discussion/leur mémoire va être stockée
+# par ex si va être cached ou via redis etc.
+CHANNEL_LAYERS = {
+    'default': {
+        # indique ci-dessous que les infos vont rester en mémoire par default
+        # en attendant de raccorder ça à autre db
+        'BACKEND': 'channels.layers.InMemoryChannelLayer' 
+    }
+}
 
 # FIN AJOUTS
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -131,6 +141,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'djangobnb_backend.wsgi.application'
+#AJOUT
+ASGI_APPLICATION = 'djangobnb_backend.asgi.application'
 
 
 # Database
